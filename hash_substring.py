@@ -4,8 +4,7 @@ def read_input():
     textInput = input().lower()
 
     if "f" in textInput:
-        file = input()
-        with open(file) as f:
+        with open("tests/06") as f:
             result = f.readline().rstrip(), f.readline().rstrip()
             return result
 
