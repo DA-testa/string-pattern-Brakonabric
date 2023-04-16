@@ -2,16 +2,16 @@
 
 def read_input():
     print("[!] \tUse an input to choose files or input - F or I ?")
-    textInput = input(">:: \t").lower()
+    textInput = input().lower()
 
     if "f" in textInput:
-        file = input(">:: \t")
+        file = input()
         with open(file) as f:
             result = f.readline().rstrip(), f.readline().rstrip()
             return result
 
     elif "i" in textInput:
-        result = input(">:: \t").rstrip(), input(">:: \t").rstrip()
+        result = input().rstrip(), input().rstrip()
         return result
 
 
