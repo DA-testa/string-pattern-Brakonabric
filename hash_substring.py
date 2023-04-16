@@ -3,46 +3,42 @@
 def read_input():
     print("[!] \tUse an input to choose files or input - F or I ?")
     textInput = input(">:: \t").lower()
+
     if "f" in textInput:
-        with open(input().rstrip) as f:
-            return (f.readline().rstrip(), f.readline().rstrip())
+        file = input(">:: \t")
+        with open(file) as f:
+            result = f.readline().rstrip(), f.readline().rstrip()
+            return result
 
     elif "i" in textInput:
-        return (input().rstrip(), input().rstrip())
+        result = input(">:: \t").rstrip(), input(">:: \t").rstrip()
+        return result
 
 
 def print_occurrences(output):
     print(' '.join(map(str, output)))
 
-
 def get_occurrences(pattern, text):
     occurrences = []
-    hashPattern = 0
-    hashText = 0
 
     if len(pattern) > len(text):
         return occurrences
 
-    for s in pattern:
-        hashPattern = (hashPattern * 256 + ord(s)) % 10**8
-
+    hashPattern = 0
+    hashText = 0
     for i in range(len(pattern)):
-        hashText = (hashText * 256 + ord(text[i])) % 10**8
-
-    if hashText == hashPattern:
-        if text[:len(pattern)] == pattern:
-            occurrences.append(0)
-
-    x = 1
-    for i in range(len(pattern)):
-        x = (x * 256) % 10**8
-
-    for i in range(1, len(text) - len(pattern) + 1):
-        hashText = (256 * (hashText - ord(text[i - 1]) * x) + ord(text[i + len(pattern) - 1])) % 10**8
-        if hashText == hashPattern:
-            if text[i:i + len(pattern)] == pattern:
+        hashPattern = (hashPattern * 263 + ord(pattern[i])) % 10**9
+        hashText = (hashText * 263 + ord(text[i])) % 10**9
+    
+    for i in range(len(text) - len(pattern) + 1):
+        if hashPattern == hashText:
+            if text[i:i+len(pattern)] == pattern:
                 occurrences.append(i)
 
+        if i < len(text) - len(pattern):
+            hashText = (263 * (hashText - ord(text[i]) * pow(
+                263, len(pattern)-1, 10**9)) + ord(text[i+len(pattern)])) % 10**9
+            hashText = (hashText + 10**9) % 10**9
     return occurrences
 
 
