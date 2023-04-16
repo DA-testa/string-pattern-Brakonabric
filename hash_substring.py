@@ -1,7 +1,6 @@
 # python3
 
 def read_input():
-    print("[!] \tUse an input to choose files or input - F or I ?")
     textInput = input().lower()
 
     if "f" in textInput:
