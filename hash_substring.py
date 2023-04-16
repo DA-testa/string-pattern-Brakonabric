@@ -1,5 +1,5 @@
 # python3
-
+#Linass Joksass 221RDB522
 def read_input():
     textInput = input().lower()
 
