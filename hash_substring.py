@@ -1,32 +1,50 @@
 # python3
 
 def read_input():
-    # this function needs to aquire input both from keyboard and file
-    # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
-    
-    
-    # after input type choice
-    # read two lines 
-    # first line is pattern 
-    # second line is text in which to look for pattern 
-    
-    # return both lines in one return
-    
-    # this is the sample return, notice the rstrip function
-    return (input().rstrip(), input().rstrip())
+    print("[!] \tUse an input to choose files or input - F or I ?")
+    textInput = input(">:: \t").lower()
+    if "f" in textInput:
+        with open(input().rstrip) as f:
+            return (f.readline().rstrip(), f.readline().rstrip())
+
+    elif "i" in textInput:
+        return (input().rstrip(), input().rstrip())
+
 
 def print_occurrences(output):
-    # this function should control output, it doesn't need any return
     print(' '.join(map(str, output)))
 
+
 def get_occurrences(pattern, text):
-    # this function should find the occurances using Rabin Karp alghoritm 
+    occurrences = []
+    hashPattern = 0
+    hashText = 0
 
-    # and return an iterable variable
-    return [0]
+    if len(pattern) > len(text):
+        return occurrences
+
+    for s in pattern:
+        hashPattern = (hashPattern * 256 + ord(s)) % 10**8
+
+    for i in range(len(pattern)):
+        hashText = (hashText * 256 + ord(text[i])) % 10**8
+
+    if hashText == hashPattern:
+        if text[:len(pattern)] == pattern:
+            occurrences.append(0)
+
+    x = 1
+    for i in range(len(pattern)):
+        x = (x * 256) % 10**8
+
+    for i in range(1, len(text) - len(pattern) + 1):
+        hashText = (256 * (hashText - ord(text[i - 1]) * x) + ord(text[i + len(pattern) - 1])) % 10**8
+        if hashText == hashPattern:
+            if text[i:i + len(pattern)] == pattern:
+                occurrences.append(i)
+
+    return occurrences
 
 
-# this part launches the functions
 if __name__ == '__main__':
     print_occurrences(get_occurrences(*read_input()))
-
